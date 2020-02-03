@@ -1,0 +1,43 @@
+Arguments: 
+  /usr/local/bin/node /Users/G4BB3R/.yarn/bin/yarn.js publish
+
+PATH: 
+  /Users/G4BB3R/.yarn/bin:/Users/G4BB3R/.config/yarn/global/node_modules/.bin:/Users/G4BB3R/.cargo/bin:/Users/G4BB3R/Library/Application Support/ErlangInstaller/22.0/bin:/usr/local/bin:/Users/G4BB3R/.fastlane/bin:/usr/local/php5/bin:/Users/G4BB3R/.rvm/gems/ruby-2.3.0/bin:/Users/G4BB3R/.rvm/gems/ruby-2.3.0@global/bin:/Users/G4BB3R/.rvm/rubies/ruby-2.3.0/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/G4BB3R/.rvm/bin:/Users/G4BB3R/Library/Android/sdk/emulator:/Users/G4BB3R/Library/Android/sdk/tools:/Users/G4BB3R/Library/Android/sdk/tools/bin:/Users/G4BB3R/Library/Android/sdk/platform-tools:/Users/G4BB3R/code/flutter/bin:/Users/G4BB3R/.rvm/bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  10.16.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/Users/G4BB3R/.yarn/lib/cli.js:136925:13)
+      at Interface.emit (events.js:198:13)
+      at Interface._ttyWrite (readline.js:801:16)
+      at ReadStream.onkeypress (readline.js:184:10)
+      at ReadStream.emit (events.js:198:13)
+      at emitKeys (internal/readline.js:424:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1075:36)
+      at ReadStream.emit (events.js:198:13)
+      at addChunk (_stream_readable.js:288:12)
+
+npm manifest: 
+  {
+    "name": "clean-api",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Gabriel Torrecillas Sartori",
+    "license": "MIT",
+    "private": false
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

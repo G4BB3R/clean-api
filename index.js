@@ -17,14 +17,19 @@ const register = controllers_obj =>
         .reduce((acc, x) => acc.concat(build_controller(x)), [])
         .reduce((acc, { name, fn }) => ({ ...acc, [name]: fn }), {})
 
-const handle_controllers = router => async ctx => {
-    const { __fn__, ...body } = ctx.request.body
+const handle_controller = async (ctx, router, req) => {
+    const { __fn__, ...body } = req
     const controller = router[__fn__]
-    if (controller) {
-        ctx.body = await controller(ctx, body)
-    } else {
-        ctx.body = { error: "not found", status: 404 }
-    }
+    return controller
+        ? await controller(ctx, body)
+        : { error: "not found", status: 404 }
+}
+
+const handle_controllers = router => async ctx => {
+    const multi = Array.isArray(ctx.request.body.multi)
+    ctx.body = multi
+        ? await Promise.all(ctx.request.body.multi.map(req => handle_controller(ctx, router, req)))
+        : await handle_controller(ctx, router, ctx.request.body)
 }
 
 // TODO: improve auto generated docs
@@ -54,7 +59,7 @@ const serve = (prefix, controller_folder) => {
     return route (prefix, controllers)
 }
 
-const fetch = domain => (function_name, body = {}, headers_or_token) => {
+const fetch_one = (domain, function_name, body, headers_or_token) => {
     const authorization
         = headers_or_token === undefined ? {}
         : typeof headers_or_token === "string" ? { Authorization: `Bearer ${headers_or_token}` }
@@ -76,6 +81,37 @@ const fetch = domain => (function_name, body = {}, headers_or_token) => {
             .then(_ => _.data)
             .catch(err => ({ status: 500, error: err.message }))
     }
+}
+
+const fetch_list = (domain, fetchList, headers_or_token) => {
+    const authorization
+        = headers_or_token === undefined ? {}
+        : typeof headers_or_token === "string" ? { Authorization: `Bearer ${headers_or_token}` }
+        : headers_or_token
+    
+    const url = domain + "?multi"
+    const multi = fetchList.map(([ function_name, body = {} ]) => ({ ...body, __fn__: function_name }))
+    const body_ = JSON.stringify({ multi })
+    const headers =
+        { "Content-Type": "application/json"
+        , ...authorization
+        }
+
+    if (this.fetch) {
+        return this.fetch(url, { method: "POST", body: body_, headers })
+            .then(_ => _.json())
+            .catch(_ => null)
+    } else {
+        return Axios({ method: "POST", url, data: body_, headers })
+            .then(_ => _.data)
+            .catch(err => ({ status: 500, error: err.message }))
+    }
+}
+
+const fetch = domain => (a, b, c) => {
+    return Array.isArray (a)
+        ? fetch_list (domain, a, b)
+        : fetch_one (domain, a, b, c)
 }
 
 module.exports = { route, serve, fetch }
