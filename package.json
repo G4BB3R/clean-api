@@ -1,0 +1,8 @@
+{
+  "name": "clean-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Gabriel Torrecillas Sartori",
+  "license": "MIT",
+  "private": false
+}
