@@ -26,9 +26,9 @@ const handle_controller = async (ctx, router, req) => {
 }
 
 const handle_controllers = router => async ctx => {
-    const multi = Array.isArray(ctx.request.body.multi)
+    const multi = Array.isArray(ctx.request.body.__multi__)
     ctx.body = multi
-        ? await Promise.all(ctx.request.body.multi.map(req => handle_controller(ctx, router, req)))
+        ? await Promise.all(ctx.request.body.__multi__.map(req => handle_controller(ctx, router, req)))
         : await handle_controller(ctx, router, ctx.request.body)
 }
 
@@ -90,8 +90,8 @@ const fetch_list = (domain, fetchList, headers_or_token) => {
         : headers_or_token
     
     const url = domain + "?multi"
-    const multi = fetchList.map(([ function_name, body = {} ]) => ({ ...body, __fn__: function_name }))
-    const body_ = JSON.stringify({ multi })
+    const __multi__ = fetchList.map(([ function_name, body = {} ]) => ({ ...body, __fn__: function_name }))
+    const body_ = JSON.stringify({ __multi__ })
     const headers =
         { "Content-Type": "application/json"
         , ...authorization
