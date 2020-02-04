@@ -4,5 +4,8 @@
   "main": "index.js",
   "author": "Gabriel Torrecillas Sartori",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
 }
